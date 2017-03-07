@@ -67,8 +67,7 @@ TRILL_ANY trill_allocateAny(const void *typeMeta) {
   trill_assert(typeMeta != nullptr);
   auto typeMetadata = reinterpret_cast<const TypeMetadata *>(typeMeta);
   auto fullSize = sizeof(AnyBox) + typeMetadata->sizeInBits;
-  auto anyBoxPtr = trill_allocateIndirectType(fullSize,
-                                              typeMetadata->deinit);
+  auto anyBoxPtr = trill_allocateIndirectType(fullSize, nullptr);
   auto ptr = reinterpret_cast<AnyBox *>(anyBoxPtr);
   ptr->typeMetadata = typeMetadata;
   return {ptr};
