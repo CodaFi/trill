@@ -22,6 +22,7 @@ struct FieldMetadata {
 struct TypeMetadata {
   const char *name;
   const FieldMetadata *fields;
+  void (*deinit)(void *);
   uint8_t isReferenceType;
   uint64_t sizeInBits;
   uint64_t fieldCount;

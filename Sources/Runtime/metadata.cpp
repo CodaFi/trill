@@ -8,6 +8,7 @@
 
 #include "metadata_private.h"
 #include "runtime.h"
+#include "arc.h"
 #include <iostream>
 #include <string>
 
@@ -66,7 +67,9 @@ TRILL_ANY trill_allocateAny(const void *typeMeta) {
   trill_assert(typeMeta != nullptr);
   auto typeMetadata = reinterpret_cast<const TypeMetadata *>(typeMeta);
   auto fullSize = sizeof(AnyBox) + typeMetadata->sizeInBits;
-  auto ptr = reinterpret_cast<AnyBox *>(trill_alloc(fullSize));
+  auto anyBoxPtr = trill_allocateIndirectType(fullSize,
+                                              typeMetadata->deinit);
+  auto ptr = reinterpret_cast<AnyBox *>(anyBoxPtr);
   ptr->typeMetadata = typeMetadata;
   return {ptr};
 }
